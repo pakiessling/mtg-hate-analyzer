@@ -49,6 +49,7 @@ red elemental blast
 wasteland
 warping wail
 Teferi, time raveler
+petrified hamlet
 
 # protection
 leyline of sanctity
