@@ -26,3 +26,6 @@ Witch Enchanter
 Wear // Tear
 Boseiju, Who Endures
 
+# Graveyard hate
+Rest in Peace
+Ashiok, Dream Render
