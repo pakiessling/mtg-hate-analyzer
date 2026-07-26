@@ -14,6 +14,10 @@ on:
         description: 'Max archetypes to include'
         default: '25'
 
+# Allow the job's GITHUB_TOKEN to push the generated reports back to the repo.
+permissions:
+  contents: write
+
 jobs:
   videre-report:
     runs-on: ubuntu-latest
