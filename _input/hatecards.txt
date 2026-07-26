@@ -25,7 +25,12 @@ White Orchid Phantom
 Witch Enchanter
 Wear // Tear
 Boseiju, Who Endures
+Pest Control 
 
 # Graveyard hate
 Rest in Peace
 Ashiok, Dream Render
+
+# Discard
+Thoughtseize
+Inquisition of Kozilek
