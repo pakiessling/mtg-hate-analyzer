@@ -1,5 +1,6 @@
 name: Weekly Videre Hate Cards Report
 
+# Runs weekly and can be triggered manually from the Actions tab.
 on:
   schedule:
     # Runs every Tuesday at 01:10 UTC
