@@ -14,13 +14,17 @@ on:
         description: 'Max archetypes to include'
         default: '25'
 
-# Allow the job's GITHUB_TOKEN to push the generated reports back to the repo.
 permissions:
-  contents: write
+  contents: write   # push generated reports to the `reports` branch
+  pages: write      # deploy the GitHub Pages site
+  id-token: write   # OIDC token required by actions/deploy-pages
 
 jobs:
   videre-report:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +57,23 @@ jobs:
 
       - name: Generate PDF report
         run: uv run python scripts/generate_pdf_report.py
+
+      - name: Build GitHub Pages site
+        run: uv run python scripts/build_site.py
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _output/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Ensure output directories exist
         run: mkdir -p _output/reports _output/paper

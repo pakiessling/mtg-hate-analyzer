@@ -296,6 +296,122 @@ def generate_html(model: dict, font_sizes: dict | None = None) -> str:
 </html>"""
 
 
+def _web_css(colors: dict[str, tuple[str, str]]) -> str:
+    """Responsive web stylesheet (screen-oriented, not print)."""
+    cat_rules = "\n".join(
+        f".{_cat_class(cat)} {{ background: {bg}; border-left: 3px solid {border}; }}"
+        for cat, (bg, border) in colors.items()
+    )
+    return f"""
+        :root {{ color-scheme: light dark; }}
+        * {{ box-sizing: border-box; }}
+        body {{
+            font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            margin: 0; color: #1a1a1a; background: #fafafa; line-height: 1.4;
+        }}
+        .wrap {{ max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }}
+        header {{ border-bottom: 2px solid #2b2b2b; padding-bottom: 12px; margin-bottom: 16px; }}
+        .titlebar {{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; justify-content: space-between; }}
+        h1 {{ font-size: 1.6rem; margin: 0; }}
+        .subtitle {{ color: #555; font-size: 0.85rem; margin: 6px 0 10px; }}
+        .btn {{
+            display: inline-block; background: #2b2b2b; color: #fff; text-decoration: none;
+            padding: 7px 14px; border-radius: 6px; font-size: 0.85rem; font-weight: 600;
+            white-space: nowrap;
+        }}
+        .btn.secondary {{ background: #e6e6e6; color: #333; margin-left: 6px; }}
+        .btn.disabled {{ background: #ccc; color: #777; pointer-events: none; }}
+        .legend {{ margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }}
+        table {{ width: 100%; border-collapse: collapse; background: #fff; }}
+        thead th {{
+            position: sticky; top: 0; background: #2b2b2b; color: #fff; text-align: left;
+            padding: 8px 10px; font-size: 0.8rem;
+        }}
+        td {{ padding: 8px 10px; vertical-align: top; border-bottom: 1px solid #eee; }}
+        tbody tr:nth-child(even) {{ background: #f6f6f6; }}
+        .arch-col {{ width: 20%; min-width: 130px; }}
+        .arch-name {{ font-weight: 700; }}
+        .arch-count {{ color: #777; font-size: 0.75rem; margin-top: 2px; }}
+        .board-col {{ width: 40%; }}
+        .chip {{
+            display: inline-block; border-radius: 4px; padding: 2px 7px; margin: 2px 3px 2px 0;
+            font-size: 0.8rem; white-space: nowrap;
+        }}
+        .chip .pct {{ font-weight: 700; margin-left: 5px; }}
+        .chip .avg {{ color: #555; margin-left: 5px; font-size: 0.72rem; }}
+        .chip .avg::before {{ content: "×"; }}
+        .legend-chip {{ text-transform: capitalize; font-size: 0.75rem; }}
+        .empty {{ color: #bbb; }}
+        @media (max-width: 640px) {{
+            table, thead, tbody, th, td, tr {{ display: block; }}
+            thead {{ display: none; }}
+            tr {{ border-bottom: 2px solid #ddd; padding: 6px 0; }}
+            .board-col::before {{ content: attr(data-label); font-weight: 700; color: #888; font-size: 0.7rem; display: block; }}
+        }}
+        {cat_rules}
+    """
+
+
+def generate_web_html(model: dict, pdf_href: str | None = None,
+                      json_href: str | None = None) -> str:
+    """Build a responsive, screen-oriented web page from the render model.
+
+    Reuses the same category coloring and chip rendering as the PDF, but with
+    fluid CSS instead of the fixed A4 print layout. `pdf_href`/`json_href`, when
+    given, add download buttons.
+    """
+    archetypes = model["archetypes"]
+    colors = category_colors(archetypes)
+
+    rows = []
+    for arch in archetypes:
+        count = arch.get("count")
+        count_html = f'<div class="arch-count">{count} decks</div>' if count else ""
+        rows.append(
+            f'<tr>'
+            f'<td class="arch-col"><div class="arch-name">{arch["name"]}</div>{count_html}</td>'
+            f'<td class="board-col" data-label="Maindeck">{_cards_html(arch.get("maindeck", []))}</td>'
+            f'<td class="board-col" data-label="Sideboard">{_cards_html(arch.get("sideboard", []))}</td>'
+            f'</tr>'
+        )
+
+    if pdf_href:
+        pdf_btn = f'<a class="btn" href="{pdf_href}" download>Download PDF</a>'
+    else:
+        pdf_btn = '<span class="btn disabled">PDF unavailable</span>'
+    json_btn = f'<a class="btn secondary" href="{json_href}" download>JSON</a>' if json_href else ""
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{model['title']}</title>
+<style>{_web_css(colors)}</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="titlebar">
+        <h1>{model['title']}</h1>
+        <div>{pdf_btn}{json_btn}</div>
+      </div>
+      <div class="subtitle">{model['subtitle']}  ·  {len(archetypes)} archetypes</div>
+      {_legend_html(archetypes)}
+    </header>
+    <table>
+      <thead>
+        <tr><th>Archetype</th><th>Maindeck hate</th><th>Sideboard hate</th></tr>
+      </thead>
+      <tbody>
+        {''.join(rows)}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>"""
+
+
 def get_page_count(html_content: str) -> int:
     """Render without saving and count pages; conservative on failure."""
     from weasyprint import HTML
