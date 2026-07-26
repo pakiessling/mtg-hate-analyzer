@@ -22,6 +22,12 @@ fetch*.py
 .idea
 /.idea
 
+# macOS
+.DS_Store
+
+# Generated reports (CI commits these to the `reports` branch, not master)
+/_output/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

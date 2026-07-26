@@ -4,14 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mtgscrap"
-version = "0.1.0"
-description = "MTG Legacy Meta Scraper for MTGGoldfish"
+version = "0.2.0"
+description = "MTG hate-card reports per archetype via the Videre API"
 requires-python = ">=3.12"
 dependencies = [
-    "beautifulsoup4~=4.12.3",
     "requests~=2.31.0",
-    "lxml~=5.2.1",
-    "contexttimer~=0.3.3",
     "weasyprint>=59",
 ]
 

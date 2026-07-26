@@ -1,23 +1,22 @@
-.PHONY: help install scrape-legacy analyze-hate generate-pdf clean clean-output
+.PHONY: help install fetch-hate videre-report generate-pdf clean clean-output
 
 help:
-	@echo "MTG Scraper - Available Commands"
-	@echo "================================"
+	@echo "MTG Hate Cards - Available Commands"
+	@echo "==================================="
 	@echo "make install        - Install dependencies using uv"
-	@echo "make scrape-legacy  - Run Legacy format scraper and export to CSV"
-	@echo "make analyze-hate   - Analyze hate cards from latest scrape"
+	@echo "make fetch-hate     - Fetch hate cards per archetype from the Videre API (ARGS='--format modern')"
 	@echo "make generate-pdf   - Generate printable PDF from latest hate cards report"
+	@echo "make videre-report  - Fetch from Videre API and build the PDF in one step"
 	@echo "make clean-output   - Remove _output directory"
 	@echo "make clean          - Remove .venv and cache files"
 
 install:
 	uv sync
 
-scrape-legacy:
-	uv run python scripts/scrape_legacy.py $(ARGS)
+fetch-hate:
+	uv run python scripts/videre_hate.py $(ARGS)
 
-analyze-hate:
-	uv run python scripts/analyze_hate_cards.py
+videre-report: fetch-hate generate-pdf
 
 generate-pdf:
 	uv run python scripts/generate_pdf_report.py

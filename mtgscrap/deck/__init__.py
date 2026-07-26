@@ -1,5 +1,4 @@
-"""mtgscrap.deck - Deck scraping and export utilities."""
-from mtgscrap.deck.goldfish import MinimalDeck, scrape_meta
-from mtgscrap.deck.export import export_decks_to_csv
+"""mtgscrap.deck - Videre API client for archetype card-adoption data."""
+from mtgscrap.deck.videre import fetch_archetypes, VidereAPIError
 
-__all__ = ["MinimalDeck", "scrape_meta", "export_decks_to_csv"]
+__all__ = ["fetch_archetypes", "VidereAPIError"]

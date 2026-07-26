@@ -2,7 +2,7 @@
 
     mtgscrap
     ~~~~~~~~
-    MTGGoldfish scraper for Legacy format decklists.
+    MTG hate-card reports per archetype, sourced from the Videre API.
 
     @author: mazz3rr
 

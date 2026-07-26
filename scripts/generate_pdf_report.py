@@ -1,378 +1,368 @@
 #!/usr/bin/env python3
 """
-Generate a printer-friendly PDF from hate cards report.
-Reads the latest report from _output/reports/ and creates a single-page PDF.
-Automatically scales font sizes to maximize readability while fitting on one page.
+Generate a printer-friendly single-page A4 PDF of hate cards per archetype.
+
+Preferred input is the structured JSON written by videre_hate.py
+(_output/reports/hate_cards_<ts>.json), which carries per-card category tags,
+per-archetype deck counts, and the format/date window. If no JSON is present,
+it falls back to parsing the legacy text report so the old Legacy pipeline keeps
+working.
+
+Font sizes are auto-scaled to maximize readability while fitting one A4 page.
 """
+import json
 import logging
 import re
 from pathlib import Path
-from weasyprint import HTML, CSS
+
+# weasyprint is imported lazily inside the render helpers: it needs native
+# GTK/Pango libraries (present in CI/Linux) that may be absent on a dev box,
+# and the HTML-generation code should remain usable without them.
 
 OUTPUT_DIR = Path(__file__).parent.parent / "_output"
 REPORTS_DIR = OUTPUT_DIR / "reports"
 PAPER_DIR = OUTPUT_DIR / "paper"
 
+# Number of hate cards shown per board per archetype (highest adoption first).
+MAX_CARDS_PER_BOARD = 4
+
+# Print-friendly muted color palette, assigned to whatever categories the data
+# actually contains (so user-defined categories always get a color). Each entry
+# is (background, left-accent).
+PALETTE = [
+    ("#d9e6f5", "#3f6fb0"),  # blue
+    ("#dfebd6", "#6a9a4e"),  # green
+    ("#f3dede", "#c25b5b"),  # red
+    ("#f6e2cf", "#cc8a3a"),  # orange
+    ("#ede3f6", "#8e6fbf"),  # purple
+    ("#f7dfec", "#c25b96"),  # pink
+    ("#dcecf5", "#4a90c2"),  # cyan
+    ("#f6ecd2", "#c9a13b"),  # gold
+    ("#d6efe9", "#3fa08a"),  # teal
+    ("#e9e9e9", "#999999"),  # gray
+]
+
+
+def _cat_class(category: str) -> str:
+    """CSS-safe class fragment for a category name."""
+    return "cat-" + re.sub(r"[^a-z0-9]+", "-", (category or "misc").lower()).strip("-")
+
+
+def collect_categories(archetypes: list) -> list[str]:
+    """Ordered list of unique categories present in the data (by first appearance)."""
+    seen = []
+    for arch in archetypes:
+        for board in ("maindeck", "sideboard"):
+            for card in arch.get(board, []):
+                cat = card.get("category", "misc")
+                if cat not in seen:
+                    seen.append(cat)
+    return seen
+
+
+def category_colors(archetypes: list) -> dict[str, tuple[str, str]]:
+    """Map each present category to a palette color (cycled if there are many)."""
+    cats = collect_categories(archetypes)
+    return {cat: PALETTE[i % len(PALETTE)] for i, cat in enumerate(cats)}
+
+
+# --------------------------------------------------------------------------- #
+# Input loading                                                               #
+# --------------------------------------------------------------------------- #
+
+def get_latest_json() -> Path | None:
+    """Return the newest structured JSON report, or None if there isn't one."""
+    files = sorted(REPORTS_DIR.glob("hate_cards_*.json"))
+    return files[-1] if files else None
+
 
 def get_latest_report() -> Path:
-    """Get the latest text report from reports folder."""
+    """Return the newest legacy text report (fallback input)."""
     report_files = sorted(REPORTS_DIR.glob("hate_cards_report_*.txt"))
     if not report_files:
         raise FileNotFoundError("No report files found in _output/reports/")
     return report_files[-1]
 
 
-def extract_timestamp(report_path: Path) -> str:
-    """Extract timestamp from report filename."""
-    match = re.search(r'(\d{8}_\d{6})', report_path.name)
-    if match:
-        return match.group(1)
-    return ""
+def extract_timestamp(path: Path) -> str:
+    """Extract the YYYYMMDD_HHMMSS timestamp from a report filename."""
+    match = re.search(r"(\d{8}_\d{6})", path.name)
+    return match.group(1) if match else ""
 
 
-def parse_report(report_path: Path) -> list:
-    """
-    Parse text report into structured data.
-    Returns a list of archetypes (preserving order) with top 3 cards per section.
-    """
+def load_from_json(json_path: Path) -> dict:
+    """Load the structured report into the internal render model."""
+    payload = json.loads(json_path.read_text(encoding="utf-8"))
+    window = payload.get("window") or {}
+
+    # Analyzed event window, e.g. "2026-06-25 → 2026-07-26 (last 31 days)".
+    if window.get("min_date") and window.get("max_date"):
+        window_str = f"{window['min_date']} → {window['max_date']}"
+        if window.get("days") is not None:
+            window_str += f" (last {window['days']} days)"
+    else:
+        window_str = "recent event window"
+
+    # Generation timestamp -> readable "2026-07-26 16:30 UTC".
+    generated = payload.get("generated", "")
+    gen_str = generated.replace("T", " ")[:16] + " UTC" if generated else ""
+
+    min_pct = payload.get("min_pct")
+    parts = [payload.get("source", ""), f"window: {window_str}"]
+    if min_pct:
+        parts.append(f"≥{min_pct}% adoption")
+    if gen_str:
+        parts.append(f"generated {gen_str}")
+    subtitle = "  ·  ".join(p for p in parts if p)
+
+    return {
+        "title": f"{payload.get('format', 'MTG')} Hate Cards Analysis",
+        "subtitle": subtitle,
+        "archetypes": payload.get("archetypes", []),
+    }
+
+
+def parse_report(report_path: Path) -> dict:
+    """Fallback: parse the legacy text report into the internal render model."""
     archetypes = []
-    current_archetype = None
-    current_section = None
     archetype_dict = None
+    current_section = None
     skip_next_line = False
-    
-    with open(report_path) as f:
+    title = "Hate Cards Analysis"
+
+    with open(report_path, encoding="utf-8") as f:
         for line in f:
             line = line.rstrip()
-            
-            # Skip header lines and separators
+
             if line.startswith("=") or not line.strip():
                 skip_next_line = False
                 continue
-            
-            # Skip known header lines
-            if "LEGACY HATE CARDS ANALYSIS" in line or line.startswith("Source:"):
+            if "HATE CARDS ANALYSIS" in line:
+                title = line.strip().title()
                 continue
-            
-            # Skip lines that are just dashes (section separators)
-            if line.strip() and all(c == '-' for c in line.strip()):
+            if line.startswith("Source:"):
+                continue
+            if line.strip() and all(c == "-" for c in line.strip()):
                 skip_next_line = True
                 continue
-            
-            # Detect archetype headers (all caps, doesn't start with space, not preceded by dashes we just skipped)
+
             if not skip_next_line and line.isupper() and not line.startswith(" "):
-                current_archetype = line.strip()
-                archetype_dict = {"name": current_archetype, "maindeck": [], "sideboard": []}
+                archetype_dict = {"name": line.strip(), "count": None,
+                                  "maindeck": [], "sideboard": []}
                 archetypes.append(archetype_dict)
                 current_section = None
-                skip_next_line = False
                 continue
-            
             skip_next_line = False
-            
-            # Detect section headers (MAINDECK: or SIDEBOARD:)
+
             if "MAINDECK:" in line:
                 current_section = "maindeck"
                 continue
             if "SIDEBOARD:" in line:
                 current_section = "sideboard"
                 continue
-            
-            # Parse card lines (• Card Name ...)
+
             if archetype_dict and current_section and "•" in line:
-                # Extract card data from line like:
-                # "    • Card Name                                 avg:  X.Xx  |  YYY% of decks"
                 match = re.search(r"•\s+(.+?)\s{2,}avg:\s+([\d.]+)x\s+\|\s+(\d+)%", line)
                 if match:
-                    card_name = match.group(1).strip()
-                    avg_count = float(match.group(2))
-                    percentage = int(match.group(3))
-                    
                     archetype_dict[current_section].append({
-                        "name": card_name,
-                        "avg": avg_count,
-                        "pct": percentage
+                        "name": match.group(1).strip(),
+                        "avg": float(match.group(2)),
+                        "pct": int(match.group(3)),
+                        "category": "misc",
                     })
-    
-    return archetypes
+
+    return {"title": title, "subtitle": f"Source: {report_path.name}",
+            "archetypes": archetypes}
 
 
-def format_card_list(cards: list, max_cards: int = 3) -> str:
-    """
-    Format up to max_cards cards as "Name avg/pct Name avg/pct ...".
-    Cards are assumed to be sorted by percentage descending.
-    """
+# --------------------------------------------------------------------------- #
+# Rendering                                                                   #
+# --------------------------------------------------------------------------- #
+
+def _cards_html(cards: list) -> str:
+    """Render a board's hate cards as category-colored chips."""
     if not cards:
-        return ""
-    
-    formatted = []
-    for card in cards[:max_cards]:
-        card_str = f"{card['name']} {card['avg']:.1f}/{card['pct']}%"
-        formatted.append(card_str)
-    
-    return " | ".join(formatted)
+        return '<span class="empty">—</span>'
+    cards = sorted(cards, key=lambda c: c.get("pct", 0), reverse=True)[:MAX_CARDS_PER_BOARD]
+    chips = []
+    for card in cards:
+        cls = _cat_class(card.get("category", "misc"))
+        name = card["name"]
+        name_html = f"<b>{name}</b>" if card.get("pct", 0) >= 50 else name
+        chips.append(
+            f'<span class="chip {cls}">{name_html}'
+            f'<span class="pct">{card.get("pct", 0)}%</span>'
+            f'<span class="avg">{card.get("avg", 0):.1f}</span></span>'
+        )
+    return "".join(chips)
 
 
-def get_page_count(html_content: str) -> int:
-    """Get the number of pages by rendering the HTML without saving."""
-    try:
-        doc = HTML(string=html_content).render()
-        # Count pages from the document
-        return len(doc.pages)
-    except Exception as e:
-        # If rendering fails, assume many pages (conservative)
-        return 999
+def _legend_html(archetypes: list) -> str:
+    """Legend of only the categories actually present in the data."""
+    items = "".join(
+        f'<span class="chip {_cat_class(c)} legend-chip">{c}</span>'
+        for c in collect_categories(archetypes)
+    )
+    return f'<div class="legend">{items}</div>'
 
 
-def find_optimal_font_sizes(archetypes: list, report_path: Path, logger) -> dict:
-    """
-    Iteratively find the maximum font sizes that fit on a single page.
-    Starts with base sizes and increases until overflow is detected.
-    """
-    base_sizes = {
-        'body': 7.5,
-        'thead': 7.0,
-        'cards': 6.5,
-        'date': 6.5,
-    }
-    
-    current_scale = 1.0
-    increment = 0.02
-    last_working_sizes = base_sizes.copy()
-    max_iterations = 50
-    iteration = 0
-    
-    logger.info("Optimizing font sizes for single-page fit...")
-    
-    while iteration < max_iterations:
-        iteration += 1
-        
-        # Calculate sizes for current scale
-        sizes = {k: round(v * current_scale, 2) for k, v in base_sizes.items()}
-        
-        # Generate HTML and check page count
-        html_content = generate_html(archetypes, report_path, sizes)
-        pages = get_page_count(html_content)
-        
-        if pages == 1:
-            logger.info(f"  Scale {current_scale:.2f}x ({sizes['body']}pt body): ✓ 1 page")
-            last_working_sizes = sizes.copy()
-            current_scale += increment
-        else:
-            logger.info(f"  Scale {current_scale:.2f}x ({sizes['body']}pt body): ✗ {pages} pages - stopping")
-            break
-    
-    logger.info(f"\nOptimal sizes found:")
-    logger.info(f"  Body: {last_working_sizes['body']}pt")
-    logger.info(f"  Headers: {last_working_sizes['thead']}pt")
-    logger.info(f"  Cards: {last_working_sizes['cards']}pt")
-    
-    return last_working_sizes
-
-
-def generate_html(archetypes: list, report_path: Path, font_sizes: dict = None) -> str:
-    """
-    Generate compact HTML table for single-page A4 printing.
-    One row per archetype with top 3 cards per section.
-    Constraint: Must fit on exactly one A4 page.
-    
-    Args:
-        archetypes: List of archetype data
-        report_path: Path to the report file
-        font_sizes: Dict with keys: 'body', 'thead', 'cards', 'date' (in pt)
-    """
-    if font_sizes is None:
-        font_sizes = {
-            'body': 7.5,
-            'thead': 7.0,
-            'cards': 6.5,
-            'date': 6.5,
-        }
-    
-    timestamp = extract_timestamp(report_path)
-    date_str = f"20{timestamp[:2]}-{timestamp[2:4]}-{timestamp[4:6]}" if timestamp else "Unknown"
-    
-    html_parts = [
-        f"""<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legacy Hate Cards Analysis</title>
-    <style>
-        @page {{
-            size: A4;
-            margin: 8mm;
-            orphans: 1;
-            widows: 1;
-        }}
-        html, body {{
-            margin: 0;
-            padding: 0;
-            width: 100%;
-        }}
+def _css(font_sizes: dict, colors: dict[str, tuple[str, str]]) -> str:
+    cat_rules = []
+    for cat, (bg, border) in colors.items():
+        cls = _cat_class(cat)
+        cat_rules.append(f".{cls} {{ background: {bg}; border-left: 2.5pt solid {border}; }}")
+    cat_css = "\n        ".join(cat_rules)
+    return f"""
+        @page {{ size: A4; margin: 8mm; }}
+        html, body {{ margin: 0; padding: 0; width: 100%; }}
         body {{
             font-family: Arial, Helvetica, sans-serif;
             font-size: {font_sizes['body']}pt;
-            line-height: 1.2;
-            color: #000;
+            color: #1a1a1a;
         }}
-        h1 {{
-            font-size: 14pt;
-            margin: 0 0 2pt 0;
-            text-align: center;
-            font-weight: bold;
+        .header {{ margin-bottom: 5pt; }}
+        h1 {{ font-size: 15pt; margin: 0; font-weight: bold; letter-spacing: 0.3pt; }}
+        .subtitle {{ font-size: {font_sizes['date']}pt; color: #666; margin: 1pt 0 4pt 0; }}
+        .legend {{ margin-bottom: 4pt; }}
+        .legend-chip {{ text-transform: capitalize; font-size: {font_sizes['date']}pt; }}
+        table {{ width: 100%; border-collapse: collapse; }}
+        thead th {{
+            background: #2b2b2b; color: #fff; font-size: {font_sizes['thead']}pt;
+            text-align: left; padding: 2.5pt 4pt; font-weight: bold;
         }}
-        .header {{
-            text-align: center;
-            margin-bottom: 4pt;
-            border-bottom: 1px solid #000;
-            padding-bottom: 2pt;
-        }}
-        .date {{
+        td {{ padding: 2.5pt 4pt; vertical-align: top; border-bottom: 0.5pt solid #d8d8d8; }}
+        tbody tr:nth-child(even) {{ background: #f4f4f4; }}
+        .arch-col {{ width: 19%; }}
+        .arch-name {{ font-weight: bold; font-size: {font_sizes['body']}pt; }}
+        .arch-count {{
+            display: inline-block; margin-top: 1pt; color: #555;
             font-size: {font_sizes['date']}pt;
-            color: #444;
         }}
-        table {{
-            width: 100%;
-            border-collapse: collapse;
-            font-size: {font_sizes['body']}pt;
-            line-height: 1.1;
+        .board-col {{ width: 40.5%; }}
+        .chip {{
+            display: inline-block; border-radius: 2pt; padding: 0.5pt 3pt;
+            margin: 0.6pt 1.2pt 0.6pt 0; font-size: {font_sizes['cards']}pt;
+            line-height: 1.35; white-space: nowrap;
         }}
-        thead {{
-            background-color: #e0e0e0;
-            font-weight: bold;
-            font-size: {font_sizes['thead']}pt;
-        }}
-        th {{
-            border: 0.5pt solid #000;
-            padding: 1pt 2pt;
-            text-align: left;
-            font-weight: bold;
-        }}
-        td {{
-            border: 0.5pt solid #ccc;
-            padding: 1pt 2pt;
-            vertical-align: top;
-        }}
-        .archetype-col {{
-            width: 25%;
-            font-weight: bold;
-            word-wrap: break-word;
-        }}
-        .cards-col {{
-            width: 75%;
-            font-size: {font_sizes['cards']}pt;
-        }}
-        tbody tr:nth-child(odd) {{
-            background-color: #ffffff;
-        }}
-        tbody tr:nth-child(even) {{
-            background-color: #d0d0d0;
-        }}
-        .section-label {{
-            font-weight: bold;
-            color: #333;
-            font-size: {font_sizes['cards']}pt;
-        }}
-        .cards-text {{
-            color: #000;
-            font-size: {font_sizes['cards']}pt;
-            word-wrap: break-word;
-        }}
-    </style>
+        .chip .pct {{ font-weight: bold; margin-left: 3pt; }}
+        .chip .avg {{ color: #555; margin-left: 3pt; font-size: {font_sizes['cards'] - 0.5}pt; }}
+        .chip .avg::before {{ content: "×"; }}
+        .empty {{ color: #bbb; }}
+        {cat_css}
+    """
+
+
+def generate_html(model: dict, font_sizes: dict | None = None) -> str:
+    """Build the single-page A4 HTML from the render model."""
+    if font_sizes is None:
+        font_sizes = {"body": 7.5, "thead": 7.0, "cards": 6.5, "date": 6.5}
+
+    archetypes = model["archetypes"]
+    colors = category_colors(archetypes)
+    rows = []
+    for arch in archetypes:
+        count = arch.get("count")
+        count_html = f'<div class="arch-count">{count} decks</div>' if count else ""
+        rows.append(
+            f'<tr>'
+            f'<td class="arch-col"><div class="arch-name">{arch["name"]}</div>{count_html}</td>'
+            f'<td class="board-col">{_cards_html(arch.get("maindeck", []))}</td>'
+            f'<td class="board-col">{_cards_html(arch.get("sideboard", []))}</td>'
+            f'</tr>'
+        )
+
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>{model['title']}</title>
+<style>{_css(font_sizes, colors)}</style>
 </head>
 <body>
     <div class="header">
-        <h1>Legacy Hate Cards Analysis</h1>
-        <div class="date">Generated: """ + date_str + """</div>
+        <h1>{model['title']}</h1>
+        <div class="subtitle">{model['subtitle']}  ·  {len(archetypes)} archetypes</div>
+        {_legend_html(archetypes)}
     </div>
     <table>
         <thead>
-            <tr>
-                <th>Archetype</th>
-                <th>Hate Cards (Maindeck | Sideboard)</th>
-            </tr>
+            <tr><th>Archetype</th><th>Maindeck hate</th><th>Sideboard hate</th></tr>
         </thead>
         <tbody>
-"""
-    ]
-    
-    # Process each archetype (preserving order)
-    for arch_data in archetypes:
-        md_cards = sorted(arch_data["maindeck"], key=lambda c: c["pct"], reverse=True)
-        sb_cards = sorted(arch_data["sideboard"], key=lambda c: c["pct"], reverse=True)
-        
-        md_text = format_card_list(md_cards, max_cards=3)
-        sb_text = format_card_list(sb_cards, max_cards=3)
-        
-        cards_html = ""
-        if md_text and sb_text:
-            cards_html = f'<span class="section-label">MD:</span> <span class="cards-text">{md_text}</span><br/><span class="section-label">SB:</span> <span class="cards-text">{sb_text}</span>'
-        elif md_text:
-            cards_html = f'<span class="section-label">MD:</span> <span class="cards-text">{md_text}</span>'
-        elif sb_text:
-            cards_html = f'<span class="section-label">SB:</span> <span class="cards-text">{sb_text}</span>'
-        else:
-            cards_html = '<span style="color: #ccc;">No hate cards</span>'
-        
-        html_parts.append(
-            f'            <tr>'
-            f'<td class="archetype-col">{arch_data["name"]}</td>'
-            f'<td class="cards-col">{cards_html}</td>'
-            f'</tr>'
-        )
-    
-    html_parts.append(
-        """        </tbody>
+            {''.join(rows)}
+        </tbody>
     </table>
 </body>
 </html>"""
-    )
-    
-    return "\n".join(html_parts)
+
+
+def get_page_count(html_content: str) -> int:
+    """Render without saving and count pages; conservative on failure."""
+    from weasyprint import HTML
+    try:
+        return len(HTML(string=html_content).render().pages)
+    except Exception:
+        return 999
+
+
+def find_optimal_font_sizes(model: dict, logger) -> dict:
+    """Increase font sizes until the layout would spill onto a second page."""
+    base_sizes = {"body": 7.5, "thead": 7.0, "cards": 6.5, "date": 6.5}
+    current_scale = 1.0
+    increment = 0.02
+    last_working = base_sizes.copy()
+
+    logger.info("Optimizing font sizes for single-page fit...")
+    for _ in range(50):
+        sizes = {k: round(v * current_scale, 2) for k, v in base_sizes.items()}
+        pages = get_page_count(generate_html(model, sizes))
+        if pages == 1:
+            logger.info("  scale %.2fx (%.1fpt body): 1 page", current_scale, sizes["body"])
+            last_working = sizes.copy()
+            current_scale += increment
+        else:
+            logger.info("  scale %.2fx (%.1fpt body): %d pages - stopping",
+                        current_scale, sizes["body"], pages)
+            break
+
+    logger.info("Optimal body font: %.1fpt", last_working["body"])
+    return last_working
 
 
 def main():
-    """Main entry point."""
     PAPER_DIR.mkdir(parents=True, exist_ok=True)
-    
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
     logger = logging.getLogger(__name__)
-    
-    try:
+
+    json_path = get_latest_json()
+    if json_path:
+        logger.info("Reading JSON report: %s", json_path.name)
+        model = load_from_json(json_path)
+        source_path = json_path
+    else:
         report_path = get_latest_report()
-        logger.info(f"Reading report: {report_path.name}")
-        
-        # Parse text report
-        archetypes = parse_report(report_path)
-        
-        if not archetypes:
-            logger.warning("No data found in report")
-            return
-        
-        logger.info(f"Found {len(archetypes)} archetypes")
-        
-        # Find optimal font sizes
-        optimal_sizes = find_optimal_font_sizes(archetypes, report_path, logger)
-        
-        # Generate HTML with optimal sizes
-        html_content = generate_html(archetypes, report_path, optimal_sizes)
-        
-        # Save PDF
-        timestamp = extract_timestamp(report_path)
-        pdf_filename = f"hate_cards_{timestamp}.pdf" if timestamp else "hate_cards.pdf"
-        pdf_path = PAPER_DIR / pdf_filename
-        
-        HTML(string=html_content).write_pdf(str(pdf_path))
-        logger.info(f"PDF saved to: {pdf_path}")
-        
-    except Exception as e:
-        logger.error(f"Error: {e}", exc_info=True)
-        raise
+        logger.info("No JSON found; parsing text report: %s", report_path.name)
+        model = parse_report(report_path)
+        source_path = report_path
+
+    if not model["archetypes"]:
+        logger.warning("No archetype data found in report")
+        return
+
+    logger.info("Found %d archetypes", len(model["archetypes"]))
+
+    optimal_sizes = find_optimal_font_sizes(model, logger)
+    html_content = generate_html(model, optimal_sizes)
+
+    timestamp = extract_timestamp(source_path)
+    pdf_path = PAPER_DIR / (f"hate_cards_{timestamp}.pdf" if timestamp else "hate_cards.pdf")
+
+    from weasyprint import HTML
+    HTML(string=html_content).write_pdf(str(pdf_path))
+    logger.info("PDF saved to: %s", pdf_path)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,63 @@
+name: Weekly Videre Hate Cards Report
+
+on:
+  schedule:
+    # Runs every Tuesday at 01:10 UTC
+    - cron: '10 1 * * 2'
+  workflow_dispatch:
+    inputs:
+      format:
+        description: 'MTG format (modern, legacy, pioneer, vintage, ...)'
+        default: 'modern'
+      limit:
+        description: 'Max archetypes to include'
+        default: '25'
+
+jobs:
+  videre-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+
+      # WeasyPrint needs native Pango/Cairo libraries to render the PDF.
+      - name: Install WeasyPrint system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf-2.0-0 libffi-dev libcairo2
+
+      - name: Clean old output files
+        run: rm -rf _output
+
+      - name: Install dependencies
+        run: uv sync --python 3.12
+
+      - name: Fetch hate cards from Videre API
+        run: |
+          uv run python scripts/videre_hate.py \
+            --format "${{ github.event.inputs.format || 'modern' }}" \
+            --limit "${{ github.event.inputs.limit || '25' }}"
+
+      - name: Generate PDF report
+        run: uv run python scripts/generate_pdf_report.py
+
+      - name: Ensure output directories exist
+        run: mkdir -p _output/reports _output/paper
+
+      - name: Commit and push outputs
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git fetch origin reports 2>/dev/null || true
+          git checkout -B reports origin/reports 2>/dev/null || git checkout -b reports
+          git add -f _output/reports/ _output/paper/
+          git commit -m "chore: weekly videre hate cards report ($(date -u +'%Y-%m-%d %H:%M:%S UTC'))" || echo "No changes to commit"
+          git push --force -u origin reports

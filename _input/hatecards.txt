@@ -1,67 +1,27 @@
-# artifacts
-abrade
-clarion conqueror
-collector ouphe
-force of vigor
-karn, the great creator
-meltdown
-null rod
-soul-guide lantern
-stony silence
-wrath of the skies
+# Counter
+Consign to Memory
+Flare of Denial
+Force of Negation
 
-# card draw
-orcish bowmasters
-Narset, parter of veils
+# Land hate
+Damping Sphere
+Blood Moon
+Harbinger of the Seas
+Magus of the Moon
 
-# counters
-daze
-force of negation
-force of will
-pact of negation
-Spell pierce
+# Removal
+Solitude
+Leyline Binding
+Force of Despair
 
-# discard
-cabal therapy
-thoughtseize
+# Artifact Hate
+Force of Vigor
+Haywire Mite
+Nature's Claim
+Prismatic Ending
+Obsidian Charmaw
+White Orchid Phantom
+Witch Enchanter
+Wear // Tear
+Boseiju, Who Endures
 
-# graveyard
-bojuka bog
-dauthi voidwalker
-endurance
-faerie macabre
-graffdigger's cage
-leyline of the void
-rest in peace
-surgical extraction
-
-# misc
-boseiju, who endures
-blue elemental blast
-chalice of the void
-disruptor flute
-ghost quarter
-hydroblast
-lavinia, azorius renegade
-pithing needle
-pyroblast
-red elemental blast
-wasteland
-warping wail
-Teferi, time raveler
-petrified hamlet
-
-# protection
-leyline of sanctity
-the one ring
-Veil of summer
-
-# spells
-deafening silence
-sphere of resistance
-thalia, guardian of thraben
-
-# storm
-Flusterstorm
-Mindbreak trap
-Consign to memory
