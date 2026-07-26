@@ -8,7 +8,7 @@ Data comes from the public [Videre API](https://api.videreproject.com)
 (`/archetypes/:format`), which returns aggregated per-archetype card-adoption
 stats for any MTGO format.
 
-**📊 Latest report (auto-updated weekly): https://pakiessling.github.io/mtg-hate-analyzer/**
+**📊 Latest report for Modern Amulet Titan (auto-updated weekly): https://pakiessling.github.io/mtg-hate-analyzer/**
 
 ## Quick start
 
