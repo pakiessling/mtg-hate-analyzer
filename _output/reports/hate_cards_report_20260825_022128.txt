@@ -1,0 +1,334 @@
+================================================================================
+MODERN HATE CARDS ANALYSIS
+Source: Videre API /archetypes/modern  |  window: 2026-07-25 -> 2026-08-25 (last 31 days)
+================================================================================
+
+
+GORYO'S VENGEANCE
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Thoughtseize                             avg:  3.0x  |  100% of decks
+    • Force of Negation                        avg:  2.1x  |  100% of decks
+    • Solitude                                 avg:  3.6x  |  100% of decks
+    • Prismatic Ending                         avg:  2.0x  |   99% of decks
+    • Consign to Memory                        avg:  1.1x  |   31% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.5x  |   99% of decks
+    • Thoughtseize                             avg:  1.0x  |   32% of decks
+
+
+BOROS ENERGY
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Blood Moon                               avg:  1.3x  |   65% of decks
+
+  SIDEBOARD:
+    • Obsidian Charmaw                         avg:  2.6x  |   83% of decks
+    • Blood Moon                               avg:  1.4x  |   68% of decks
+    • Rest in Peace                            avg:  1.4x  |   44% of decks
+
+
+ELDRAZI
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.7x  |   98% of decks
+    • Haywire Mite                             avg:  1.0x  |   98% of decks
+
+  SIDEBOARD:
+    • Nature's Claim                           avg:  2.1x  |   98% of decks
+    • Damping Sphere                           avg:  1.5x  |   28% of decks
+
+
+ESPER BLINK
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  4.0x  |  100% of decks
+    • Prismatic Ending                         avg:  2.0x  |  100% of decks
+    • Witch Enchanter                          avg:  3.5x  |  100% of decks
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  3.9x  |  100% of decks
+    • Prismatic Ending                         avg:  3.0x  |   96% of decks
+    • Prismatic Ending                         avg:  2.0x  |   95% of decks
+    • Witch Enchanter                          avg:  3.5x  |   71% of decks
+    • Inquisition of Kozilek                   avg:  1.7x  |   64% of decks
+    • Consign to Memory                        avg:  1.2x  |   46% of decks
+    • Witch Enchanter                          avg:  3.5x  |   39% of decks
+    • Inquisition of Kozilek                   avg:  2.0x  |   36% of decks
+    • Solitude                                 avg:  4.0x  |   35% of decks
+    • Thoughtseize                             avg:  3.9x  |   35% of decks
+    • Prismatic Ending                         avg:  3.0x  |   34% of decks
+    • Consign to Memory                        avg:  1.9x  |   25% of decks
+    • Inquisition of Kozilek                   avg:  1.7x  |   23% of decks
+    • Force of Negation                        avg:  1.8x  |   21% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.4x  |  100% of decks
+    • Consign to Memory                        avg:  3.4x  |  100% of decks
+    • Damping Sphere                           avg:  1.9x  |  100% of decks
+    • Consign to Memory                        avg:  3.3x  |  100% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   96% of decks
+    • Damping Sphere                           avg:  2.1x  |   71% of decks
+    • Damping Sphere                           avg:  1.9x  |   59% of decks
+    • Consign to Memory                        avg:  3.3x  |   35% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   34% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   29% of decks
+    • Damping Sphere                           avg:  2.1x  |   25% of decks
+    • Force of Negation                        avg:  1.7x  |   25% of decks
+    • Force of Negation                        avg:  2.0x  |   21% of decks
+
+
+DEVOTED COMBO
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.2x  |   97% of decks
+
+  SIDEBOARD:
+    • Force of Vigor                           avg:  1.9x  |   66% of decks
+    • Thoughtseize                             avg:  2.2x  |   33% of decks
+
+
+DIMIR MIDRANGE
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Force of Negation                        avg:  3.1x  |  100% of decks
+    • Thoughtseize                             avg:  3.9x  |   98% of decks
+    • Consign to Memory                        avg:  1.7x  |   53% of decks
+    • Harbinger of the Seas                    avg:  1.5x  |   25% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.2x  |   97% of decks
+    • Harbinger of the Seas                    avg:  2.1x  |   67% of decks
+
+
+IZZET PROWESS
+--------------------------------------------------------------------------------
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.4x  |   98% of decks
+
+
+AFFINITY
+--------------------------------------------------------------------------------
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.0x  |   96% of decks
+    • Damping Sphere                           avg:  2.3x  |   92% of decks
+    • Blood Moon                               avg:  1.2x  |   53% of decks
+
+
+MONO-GREEN ELDRAZI
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.0x  |  100% of decks
+
+  SIDEBOARD:
+    • Force of Vigor                           avg:  2.5x  |  100% of decks
+
+
+DOMAIN ZOO
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Leyline Binding                          avg:  4.0x  |  100% of decks
+    • Stubborn Denial                          avg:  3.5x  |  100% of decks
+    • Consign to Memory                        avg:  1.8x  |   43% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  2.7x  |  100% of decks
+    • Obsidian Charmaw                         avg:  2.5x  |   85% of decks
+    • Rest in Peace                            avg:  1.6x  |   48% of decks
+
+
+NEOBRAND
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Consign to Memory                        avg:  4.0x  |  100% of decks
+    • Boseiju, Who Endures                     avg:  1.0x  |   95% of decks
+    • Nature's Claim                           avg:  1.8x  |   44% of decks
+
+  SIDEBOARD:
+    • Nature's Claim                           avg:  2.2x  |   98% of decks
+
+
+LIVING END
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Force of Negation                        avg:  4.0x  |  100% of decks
+
+  SIDEBOARD:
+    • Force of Vigor                           avg:  1.8x  |  100% of decks
+
+
+RUBY STORM
+--------------------------------------------------------------------------------
+
+  SIDEBOARD:
+    • Prismatic Ending                         avg:  3.2x  |   90% of decks
+    • Nature's Claim                           avg:  3.0x  |   55% of decks
+
+
+GRUUL BASKING BROODSCALE COMBO
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.3x  |  100% of decks
+    • Haywire Mite                             avg:  1.0x  |  100% of decks
+
+  SIDEBOARD:
+    • Nature's Claim                           avg:  2.0x  |  100% of decks
+    • Damping Sphere                           avg:  1.8x  |   70% of decks
+    • Boseiju, Who Endures                     avg:  1.0x  |   50% of decks
+
+
+ESPER GENERICBLINK
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  4.0x  |  100% of decks
+    • Prismatic Ending                         avg:  2.0x  |  100% of decks
+    • Witch Enchanter                          avg:  3.5x  |  100% of decks
+    • Solitude                                 avg:  4.0x  |  100% of decks
+    • Thoughtseize                             avg:  3.9x  |  100% of decks
+    • Prismatic Ending                         avg:  3.0x  |   96% of decks
+    • Prismatic Ending                         avg:  2.0x  |   95% of decks
+    • Witch Enchanter                          avg:  3.5x  |   71% of decks
+    • Inquisition of Kozilek                   avg:  1.7x  |   64% of decks
+    • Consign to Memory                        avg:  1.2x  |   46% of decks
+    • Witch Enchanter                          avg:  3.5x  |   39% of decks
+    • Inquisition of Kozilek                   avg:  2.0x  |   36% of decks
+    • Solitude                                 avg:  4.0x  |   35% of decks
+    • Thoughtseize                             avg:  3.9x  |   35% of decks
+    • Prismatic Ending                         avg:  3.0x  |   34% of decks
+    • Consign to Memory                        avg:  1.9x  |   25% of decks
+    • Inquisition of Kozilek                   avg:  1.7x  |   23% of decks
+    • Force of Negation                        avg:  1.8x  |   21% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.4x  |  100% of decks
+    • Consign to Memory                        avg:  3.4x  |  100% of decks
+    • Damping Sphere                           avg:  1.9x  |  100% of decks
+    • Consign to Memory                        avg:  3.3x  |  100% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   96% of decks
+    • Damping Sphere                           avg:  2.1x  |   71% of decks
+    • Damping Sphere                           avg:  1.9x  |   59% of decks
+    • Consign to Memory                        avg:  3.3x  |   35% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   34% of decks
+    • White Orchid Phantom                     avg:  2.1x  |   29% of decks
+    • Damping Sphere                           avg:  2.1x  |   25% of decks
+    • Force of Negation                        avg:  1.7x  |   25% of decks
+    • Force of Negation                        avg:  2.0x  |   21% of decks
+
+
+GRIXIS REANIMATOR
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Thoughtseize                             avg:  4.0x  |  100% of decks
+    • Inquisition of Kozilek                   avg:  1.5x  |   44% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.4x  |  100% of decks
+    • Damping Sphere                           avg:  2.0x  |   85% of decks
+
+
+4C HOLLOWONE
+--------------------------------------------------------------------------------
+
+  SIDEBOARD:
+    • Damping Sphere                           avg:  2.1x  |   85% of decks
+    • Obsidian Charmaw                         avg:  1.8x  |   44% of decks
+    • Prismatic Ending                         avg:  1.9x  |   37% of decks
+
+
+BOROS PONZA
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Solitude                                 avg:  3.9x  |  100% of decks
+
+  SIDEBOARD:
+    • Rest in Peace                            avg:  3.1x  |   96% of decks
+
+
+TEMUR PROWESS
+--------------------------------------------------------------------------------
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.0x  |  100% of decks
+
+
+AMULET TITAN
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  2.9x  |  100% of decks
+
+  SIDEBOARD:
+    • Force of Vigor                           avg:  1.7x  |   92% of decks
+    • Boseiju, Who Endures                     avg:  1.0x  |   33% of decks
+
+
+JESKAI ENERGY
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Solitude                                 avg:  3.5x  |  100% of decks
+    • Prismatic Ending                         avg:  2.4x  |   62% of decks
+    • Force of Negation                        avg:  1.1x  |   33% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.7x  |   86% of decks
+    • Rest in Peace                            avg:  1.7x  |   71% of decks
+
+
+YAWGMOTH
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.9x  |  100% of decks
+    • Haywire Mite                             avg:  1.0x  |   62% of decks
+
+  SIDEBOARD:
+    • Thoughtseize                             avg:  2.4x  |  100% of decks
+    • Force of Vigor                           avg:  1.9x  |   95% of decks
+    • Damping Sphere                           avg:  1.4x  |   24% of decks
+
+
+BELCHER
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Force of Negation                        avg:  2.6x  |   95% of decks
+
+  SIDEBOARD:
+    • Consign to Memory                        avg:  3.9x  |   95% of decks
+    • Harbinger of the Seas                    avg:  1.4x  |   24% of decks
+
+
+ELDRAZI RAMP
+--------------------------------------------------------------------------------
+
+  MAINDECK:
+    • Boseiju, Who Endures                     avg:  1.1x  |   55% of decks
+
+  SIDEBOARD:
+    • Nature's Claim                           avg:  2.0x  |   85% of decks
+    • Blood Moon                               avg:  2.0x  |   45% of decks
+
+================================================================================
