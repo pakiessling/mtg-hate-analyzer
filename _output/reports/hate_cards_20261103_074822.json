@@ -1,0 +1,847 @@
+{
+  "format": "Modern",
+  "source": "Videre API /archetypes/modern",
+  "window": {
+    "min_date": "2026-10-03",
+    "max_date": "2026-11-03",
+    "days": 31
+  },
+  "min_pct": 20,
+  "generated": "2026-11-03T07:48:22+00:00",
+  "archetypes": [
+    {
+      "name": "Eldrazi Ramp",
+      "count": 155,
+      "maindeck": [
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 1.9,
+          "pct": 98,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Haywire Mite",
+          "avg": 1.0,
+          "pct": 90,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Nature's Claim",
+          "avg": 1.9,
+          "pct": 99,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Affinity",
+      "count": 110,
+      "maindeck": [],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.1,
+          "pct": 99,
+          "category": "counter"
+        },
+        {
+          "name": "Damping Sphere",
+          "avg": 1.6,
+          "pct": 79,
+          "category": "land hate"
+        },
+        {
+          "name": "Blood Moon",
+          "avg": 1.4,
+          "pct": 75,
+          "category": "land hate"
+        }
+      ]
+    },
+    {
+      "name": "Rakdos Midrange",
+      "count": 104,
+      "maindeck": [
+        {
+          "name": "Thoughtseize",
+          "avg": 4.0,
+          "pct": 100,
+          "category": "discard"
+        },
+        {
+          "name": "Blood Moon",
+          "avg": 1.0,
+          "pct": 98,
+          "category": "land hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Inquisition of Kozilek",
+          "avg": 1.4,
+          "pct": 97,
+          "category": "discard"
+        },
+        {
+          "name": "Blood Moon",
+          "avg": 1.0,
+          "pct": 95,
+          "category": "land hate"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 3.0,
+          "pct": 79,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Domain Zoo",
+      "count": 75,
+      "maindeck": [
+        {
+          "name": "Leyline Binding",
+          "avg": 4.0,
+          "pct": 100,
+          "category": "removal"
+        },
+        {
+          "name": "Stubborn Denial",
+          "avg": 2.9,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.4,
+          "pct": 37,
+          "category": "counter"
+        },
+        {
+          "name": "Thoughtseize",
+          "avg": 3.9,
+          "pct": 33,
+          "category": "discard"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.2,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 2.9,
+          "pct": 99,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Rest in Peace",
+          "avg": 1.7,
+          "pct": 77,
+          "category": "graveyard hate"
+        }
+      ]
+    },
+    {
+      "name": "Boros Energy",
+      "count": 69,
+      "maindeck": [
+        {
+          "name": "Blood Moon",
+          "avg": 1.7,
+          "pct": 71,
+          "category": "land hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 3.2,
+          "pct": 97,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Blood Moon",
+          "avg": 1.6,
+          "pct": 33,
+          "category": "land hate"
+        },
+        {
+          "name": "Rest in Peace",
+          "avg": 1.7,
+          "pct": 32,
+          "category": "graveyard hate"
+        }
+      ]
+    },
+    {
+      "name": "Amulet Titan",
+      "count": 63,
+      "maindeck": [
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 2.8,
+          "pct": 100,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Force of Vigor",
+          "avg": 1.3,
+          "pct": 92,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 1.0,
+          "pct": 25,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Izzet Prowess",
+      "count": 62,
+      "maindeck": [],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.9,
+          "pct": 95,
+          "category": "counter"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 1.7,
+          "pct": 63,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Jeskai Energy",
+      "count": 59,
+      "maindeck": [
+        {
+          "name": "Solitude",
+          "avg": 3.9,
+          "pct": 98,
+          "category": "removal"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 2.8,
+          "pct": 69,
+          "category": "counter"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 1.0,
+          "pct": 54,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 1.1,
+          "pct": 42,
+          "category": "counter"
+        },
+        {
+          "name": "Rest in Peace",
+          "avg": 1.0,
+          "pct": 32,
+          "category": "graveyard hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 3.5,
+          "pct": 88,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 2.6,
+          "pct": 63,
+          "category": "counter"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.1,
+          "pct": 46,
+          "category": "graveyard hate"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 1.0,
+          "pct": 22,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Ruby Storm",
+      "count": 58,
+      "maindeck": [],
+      "sideboard": [
+        {
+          "name": "Prismatic Ending",
+          "avg": 3.5,
+          "pct": 81,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Thoughtseize",
+          "avg": 3.6,
+          "pct": 38,
+          "category": "discard"
+        }
+      ]
+    },
+    {
+      "name": "Eldrazi",
+      "count": 44,
+      "maindeck": [
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 1.9,
+          "pct": 91,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Haywire Mite",
+          "avg": 1.0,
+          "pct": 89,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Nature's Claim",
+          "avg": 1.9,
+          "pct": 82,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Living End",
+      "count": 37,
+      "maindeck": [
+        {
+          "name": "Force of Negation",
+          "avg": 4.0,
+          "pct": 100,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Force of Vigor",
+          "avg": 1.9,
+          "pct": 97,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 1.2,
+          "pct": 43,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Goryo's Vengeance",
+      "count": 32,
+      "maindeck": [
+        {
+          "name": "Solitude",
+          "avg": 3.9,
+          "pct": 100,
+          "category": "removal"
+        },
+        {
+          "name": "Thoughtseize",
+          "avg": 2.9,
+          "pct": 100,
+          "category": "discard"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 2.4,
+          "pct": 97,
+          "category": "counter"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 1.8,
+          "pct": 97,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.3,
+          "pct": 69,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.1,
+          "pct": 97,
+          "category": "counter"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.1,
+          "pct": 41,
+          "category": "graveyard hate"
+        },
+        {
+          "name": "Thoughtseize",
+          "avg": 1.0,
+          "pct": 34,
+          "category": "discard"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 1.0,
+          "pct": 28,
+          "category": "counter"
+        }
+      ]
+    },
+    {
+      "name": "Azorius Control",
+      "count": 31,
+      "maindeck": [
+        {
+          "name": "Solitude",
+          "avg": 3.9,
+          "pct": 100,
+          "category": "removal"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 2.1,
+          "pct": 100,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 1.0,
+          "pct": 97,
+          "category": "counter"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.0,
+          "pct": 45,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.4,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.0,
+          "pct": 65,
+          "category": "graveyard hate"
+        }
+      ]
+    },
+    {
+      "name": "Dimir Midrange",
+      "count": 30,
+      "maindeck": [
+        {
+          "name": "Thoughtseize",
+          "avg": 3.4,
+          "pct": 87,
+          "category": "discard"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 2.8,
+          "pct": 77,
+          "category": "counter"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.7,
+          "pct": 50,
+          "category": "counter"
+        },
+        {
+          "name": "Harbinger of the Seas",
+          "avg": 1.8,
+          "pct": 43,
+          "category": "land hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.1,
+          "pct": 97,
+          "category": "counter"
+        },
+        {
+          "name": "Harbinger of the Seas",
+          "avg": 1.8,
+          "pct": 80,
+          "category": "land hate"
+        }
+      ]
+    },
+    {
+      "name": "Esper Blink",
+      "count": 30,
+      "maindeck": [
+        {
+          "name": "Thoughtseize",
+          "avg": 3.8,
+          "pct": 100,
+          "category": "discard"
+        },
+        {
+          "name": "Solitude",
+          "avg": 4.0,
+          "pct": 97,
+          "category": "removal"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.9,
+          "pct": 93,
+          "category": "counter"
+        },
+        {
+          "name": "Witch Enchanter",
+          "avg": 3.6,
+          "pct": 63,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 2.3,
+          "pct": 57,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 1.6,
+          "pct": 33,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 2.2,
+          "pct": 97,
+          "category": "counter"
+        },
+        {
+          "name": "White Orchid Phantom",
+          "avg": 2.2,
+          "pct": 43,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.4,
+          "pct": 37,
+          "category": "graveyard hate"
+        },
+        {
+          "name": "Force of Negation",
+          "avg": 1.2,
+          "pct": 27,
+          "category": "counter"
+        },
+        {
+          "name": "Pest Control",
+          "avg": 1.0,
+          "pct": 20,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Mono-Green Basking Broodscale Combo",
+      "count": 29,
+      "maindeck": [
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 2.0,
+          "pct": 100,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Haywire Mite",
+          "avg": 1.0,
+          "pct": 100,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Nature's Claim",
+          "avg": 1.9,
+          "pct": 93,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Neobrand",
+      "count": 24,
+      "maindeck": [
+        {
+          "name": "Consign to Memory",
+          "avg": 4.0,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 1.0,
+          "pct": 88,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Nature's Claim",
+          "avg": 2.0,
+          "pct": 58,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Nature's Claim",
+          "avg": 1.7,
+          "pct": 88,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Yawgmoth",
+      "count": 20,
+      "maindeck": [
+        {
+          "name": "Boseiju, Who Endures",
+          "avg": 2.0,
+          "pct": 100,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Haywire Mite",
+          "avg": 1.0,
+          "pct": 70,
+          "category": "artifact hate"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Force of Vigor",
+          "avg": 2.0,
+          "pct": 100,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Thoughtseize",
+          "avg": 2.0,
+          "pct": 100,
+          "category": "discard"
+        },
+        {
+          "name": "Prismatic Ending",
+          "avg": 1.1,
+          "pct": 65,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.8,
+          "pct": 30,
+          "category": "graveyard hate"
+        }
+      ]
+    },
+    {
+      "name": "Izzet Murktide",
+      "count": 18,
+      "maindeck": [
+        {
+          "name": "Force of Negation",
+          "avg": 1.1,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Consign to Memory",
+          "avg": 1.0,
+          "pct": 83,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.2,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 2.2,
+          "pct": 100,
+          "category": "artifact hate"
+        },
+        {
+          "name": "Blood Moon",
+          "avg": 1.0,
+          "pct": 100,
+          "category": "land hate"
+        }
+      ]
+    },
+    {
+      "name": "Mono-Black Midrange",
+      "count": 17,
+      "maindeck": [
+        {
+          "name": "Thoughtseize",
+          "avg": 4.0,
+          "pct": 100,
+          "category": "discard"
+        },
+        {
+          "name": "Inquisition of Kozilek",
+          "avg": 2.0,
+          "pct": 94,
+          "category": "discard"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Damping Sphere",
+          "avg": 2.0,
+          "pct": 94,
+          "category": "land hate"
+        },
+        {
+          "name": "Force of Despair",
+          "avg": 1.0,
+          "pct": 94,
+          "category": "removal"
+        },
+        {
+          "name": "Ashiok, Dream Render",
+          "avg": 1.0,
+          "pct": 88,
+          "category": "graveyard hate"
+        }
+      ]
+    },
+    {
+      "name": "Boros Burn",
+      "count": 17,
+      "maindeck": [],
+      "sideboard": [
+        {
+          "name": "Rest in Peace",
+          "avg": 1.2,
+          "pct": 100,
+          "category": "graveyard hate"
+        },
+        {
+          "name": "Damping Sphere",
+          "avg": 2.0,
+          "pct": 88,
+          "category": "land hate"
+        },
+        {
+          "name": "Obsidian Charmaw",
+          "avg": 1.0,
+          "pct": 88,
+          "category": "artifact hate"
+        }
+      ]
+    },
+    {
+      "name": "Grixis Reanimator",
+      "count": 16,
+      "maindeck": [
+        {
+          "name": "Thoughtseize",
+          "avg": 4.0,
+          "pct": 94,
+          "category": "discard"
+        },
+        {
+          "name": "Inquisition of Kozilek",
+          "avg": 1.8,
+          "pct": 38,
+          "category": "discard"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.5,
+          "pct": 100,
+          "category": "counter"
+        },
+        {
+          "name": "Damping Sphere",
+          "avg": 2.0,
+          "pct": 94,
+          "category": "land hate"
+        }
+      ]
+    },
+    {
+      "name": "Belcher",
+      "count": 15,
+      "maindeck": [
+        {
+          "name": "Force of Negation",
+          "avg": 3.0,
+          "pct": 80,
+          "category": "counter"
+        }
+      ],
+      "sideboard": [
+        {
+          "name": "Consign to Memory",
+          "avg": 3.9,
+          "pct": 87,
+          "category": "counter"
+        },
+        {
+          "name": "Harbinger of the Seas",
+          "avg": 1.8,
+          "pct": 80,
+          "category": "land hate"
+        }
+      ]
+    }
+  ]
+}
